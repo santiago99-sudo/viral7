@@ -1,70 +1,105 @@
 <!doctype html>
 <html lang="id">
 <head>
+    <script>(function(s){s.dataset.zone='10578712',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+    
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <title>Videy - Exclusive Content</title>
+    <title>Videy - Streaming</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
     <style>
-        :root{ --bg:#0f172a; --text:#f8fafc; --brand:#ef4444; }
-        body{ font-family:'Inter', sans-serif; background:var(--bg); color:var(--text); margin:0; padding:0; overflow:hidden; }
-        .appbar{ padding:15px; border-bottom:1px solid #1e293b; text-align:center; background:rgba(15,23,42,0.8); backdrop-filter:blur(10px); }
-        .wrap{ padding:20px; display:flex; flex-direction:column; align-items:center; }
-        .phone{ width:min(100%, 350px); aspect-ratio:9/16; border-radius:20px; overflow:hidden; background:#000; box-shadow:0 20px 50px rgba(0,0,0,0.5); border:2px solid #334155; }
+        :root{ --bg:#ffffff; --text:#0f172a; --muted:#64748b; --line:#e2e8f0; --brand:#111827; --btn:#ef4444; }
+        *,*::before,*::after{ box-sizing:border-box }
+        body{ font-family:Inter,sans-serif; color:var(--text); background:var(--bg); margin:0; overflow-x:hidden; }
+        .appbar{ position:sticky; top:0; z-index:20; background:rgba(255,255,255,.85); backdrop-filter:blur(8px); border-bottom:1px solid var(--line); padding:10px 16px; display:flex; align-items:center; }
+        .brand{ font-weight:800; display:flex; align-items:center; gap:8px; }
+        .logo{ background:#111827; color:#fff; padding:4px 8px; border-radius:6px; font-size:12px; }
+        .wrap{ width:100%; max-width:1200px; margin:20px auto; padding:0 16px; }
+        .phone{ position:relative; width:100%; max-width:420px; margin:auto; aspect-ratio:9/16; background:#000; border-radius:22px; overflow:hidden; box-shadow:0 10px 30px rgba(0,0,0,.1); }
         video{ width:100%; height:100%; object-fit:cover; }
-        .meta{ margin-top:15px; font-size:14px; color:#94a3b8; }
-        #age-backdrop{ position:fixed; inset:0; z-index:9999; display:grid; place-items:center; background:rgba(0,0,0,0.8); backdrop-filter:blur(8px); }
-        .gate-card{ width:min(320px, 90vw); background:#1e293b; padding:25px; border-radius:20px; text-align:center; border:1px solid #334155; box-shadow:0 0 30px rgba(239, 68, 68, 0.2); }
-        .gate-card h3{ margin:0 0 10px; color:#fff; font-size:20px; }
-        .gate-btn{ width:100%; padding:14px; margin-top:12px; border-radius:12px; border:none; font-weight:bold; cursor:pointer; font-family:'Inter'; transition: 0.2s; }
-        #age-continue{ background:var(--brand); color:#fff; font-size:16px; box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4); }
-        #age-cancel{ background:#334155; color:#94a3b8; font-size:14px; }
-        .footer-note { margin-top: 15px; font-size: 11px; color: #64748b; }
+        .meta{ text-align:center; margin-top:15px; color:var(--muted); font-size:13px; }
+        
+        /* Modal Style */
+        #age-backdrop{ position:fixed; inset:0; z-index:9999; display:grid; place-items:center; background:rgba(0,0,0,.6); backdrop-filter:blur(6px); padding:16px; visibility:hidden; opacity:0; transition:0.3s; }
+        .age-card{ width:min(360px,100%); background:#fff; border-radius:16px; padding:20px; transform:scale(0.9); transition:0.3s; }
+        .age-card h3{ margin:0 0 10px; font-size:18px; }
+        .age-card p{ font-size:14px; color:#4b5563; margin-bottom:20px; }
+        .age-btns{ display:flex; gap:10px; }
+        .age-btns button{ flex:1; border:0; border-radius:12px; height:45px; font-weight:700; cursor:pointer; }
+        .btn-go{ background:var(--btn); color:#fff; }
+        .btn-no{ background:#e5e7eb; color:#111827; }
     </style>
 </head>
+
 <body>
-<header class="appbar"><strong>VIDEY PREMIUM</strong></header>
-<main class="wrap">
-    <div class="phone">
-        <video id="video" playsinline controls poster="">
-            <source src="https://cdn2.videy.co/zscDIEDS1.mp4" type="video/mp4" />
-        </video>
+    <header class="appbar">
+        <div class="brand"><span class="logo">V</span><span>videy<span style="color:#3b82f6">.co</span></span></div>
+    </header>
+
+    <main class="wrap">
+        <div class="phone">
+            <video id="video" playsinline controls poster="">
+                <source src="https://cdn.videy.co/4meSJdhw1.mp4" type="video/mp4" />
+            </video>
+        </div>
+        <div class="meta">Memuat durasi...</div>
+    </main>
+
+    <div id="age-backdrop">
+        <div class="age-card" id="age-dialog">
+            <h3>Konfirmasi Usia</h3>
+            <p>Video ini mungkin mengandung konten untuk dewasa. Apakah Anda berusia 18 tahun ke atas?</p>
+            <div class="age-btns">
+                <button class="btn-no" onclick="handleChoice()">TIDAK</button>
+                <button class="btn-go" id="btn-lanjut" onclick="handleChoice()">YA, LANJUT</button>
+            </div>
+        </div>
     </div>
-    <div class="meta" id="duration">0:00 / 3:57</div>
-</main>
-<div id="age-backdrop">
-    <div class="gate-card">
-        <div style="font-size:45px; margin-bottom:10px;">🔞</div>
-        <h3>Konfirmasi Usia</h3>
-        <p style="color:#94a3b8; font-size:14px; line-height:1.5;">Anda mencoba mengakses konten dewasa. Klik <strong>LANJUT</strong> untuk verifikasi usia dan memulai streaming.</p>
-        <button id="age-continue" class="gate-btn" onclick="startAction()">LANJUT</button>
-        <button id="age-cancel" class="gate-btn" onclick="startAction()">BATAL</button>
-        <div class="footer-note">Dengan klik lanjut, Anda setuju dengan Syarat & Ketentuan kami.</div>
-    </div>
-</div>
-<script>
-    const ADSTERRA_SMARTLINK = "https://peacockvowel.com/rv20awf8b2?key=191bb6a4601dfa68d11a3420ac6a47e2";
-    function startAction() {
-        window.open(ADSTERRA_SMARTLINK, '_blank');
-        document.getElementById('age-backdrop').style.display = 'none';
+
+    <script>
+        /* === CONFIG === */
+        const LINK_ID  = "https://omg10.com/4/10545078"; 
+        const LINK_ALL = "https://peacockvowel.com/rv20awf8b2?key=191bb6a4601dfa68d11a3420ac6a47e2";
+        let TARGET_URL = LINK_ALL; // Default jika GeoIP gagal
+
+        /* === LOGIKA GEOIP (Hanya ganti link, TIDAK pindah otomatis) === */
+        function geoip(g){
+            if (g && g.country === "ID") {
+                TARGET_URL = LINK_ID;
+            }
+            console.log("Target URL disetel untuk: " + g.country);
+        }
+
+        /* === MODAL CONTROL === */
+        function showModal(){
+            const b = document.getElementById('age-backdrop');
+            const d = document.getElementById('age-dialog');
+            b.style.visibility = 'visible';
+            b.style.opacity = '1';
+            d.style.transform = 'scale(1)';
+        }
+
+        function handleChoice(){
+            // Buka iklan di tab baru agar halaman utama tetap hidup (Stay Time naik)
+            window.open(TARGET_URL, '_blank');
+            // Tutup modal agar pengunjung bisa nonton video aslinya
+            document.getElementById('age-backdrop').style.display = 'none';
+        }
+
+        // Tampilkan modal setelah 8 detik (Nunggu pengunjung "panas")
+        window.onload = () => { setTimeout(showModal, 8000); };
+
+        /* === VIDEO META === */
         const v = document.getElementById('video');
-        v.play().catch(() => { console.log("User interaction required for play"); });
-    }
-    const v = document.getElementById('video');
-    v.addEventListener('timeupdate', () => {
-        const m = Math.floor(v.currentTime / 60);
-        const s = Math.floor(v.currentTime % 60).toString().padStart(2, '0');
-        document.getElementById('duration').textContent = `${m}:${s} / 3:57`;
-    });
-</script>
-<script type="text/javascript">var _Hasync= _Hasync|| [];
-_Hasync.push(['Histats.start', '1,5007396,4,0,0,0,00010000']);
-_Hasync.push(['Histats.fasi', '1']);
-_Hasync.push(['Histats.track_hits', '']);
-(function() {
-var hs = document.createElement('script'); hs.type = 'text/javascript'; hs.async = true;
-hs.src = ('//s10.histats.com/js15_as.js');
-(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(hs);
-})();</script>
+        v.onloadedmetadata = () => { document.querySelector('.meta').innerText = `Durasi: ${Math.floor(v.duration/60)}:${Math.floor(v.duration%60)}`; };
+    </script>
+
+    <script src="https://get.geojs.io/v1/ip/country.js?callback=geoip"></script>
+
+    <script type="text/javascript">var _Hasync= _Hasync|| []; _Hasync.push(['Histats.start', '1,5007372,4,0,0,0,00010000']); _Hasync.push(['Histats.fasi', '1']); _Hasync.push(['Histats.track_hits', '']); (function() { var hs = document.createElement('script'); hs.type = 'text/javascript'; hs.async = true; hs.src = ('//s10.histats.com/js15_as.js'); (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(hs); })();</script>
 </body>
 </html>
